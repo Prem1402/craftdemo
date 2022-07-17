@@ -1,26 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react"
+import { Routes } from "./Routes"
+import { setAccessToken } from "./utils/accessToken"
+import { Loading } from "./components/Loading/Loading"
+import Helmet from "react-helmet"
+import { ColorScheme } from "./utils/theme"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+export const App: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(true)
+
+  // Fetch refresh token
+  useEffect(() => {
+    fetch((process.env.REACT_APP_SERVER_URL as string) + "/refresh_token", {
+      method: "POST",
+      credentials: "include",
+    }).then(async (res) => {
+      const { accessToken } = await res.json()
+      setAccessToken(accessToken)
+      setLoading(false)
+    })
+  }, [])
+
+  if (loading) {
+    return (
+      <>
+        <Helmet>
+          <style>{`body { background-color: ${ColorScheme.WHITE}; }`}</style>
+        </Helmet>
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+          <Loading />
+        </div>
+      </>
+    )
+  }
 
-export default App;
+  return (
+    <>
+      <Helmet>
+        <style>{`body { background-color: ${ColorScheme.WHITE}; }`}</style>
+      </Helmet>
+      <Routes />
+    </>
+  )
+}
