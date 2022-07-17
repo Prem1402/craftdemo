@@ -20,25 +20,25 @@ export const App: React.FC = () => {
     })
   }, [])
 
-  if (loading) {
-    return (
-      <>
-        <Helmet>
-          <style>{`body { background-color: ${ColorScheme.WHITE}; }`}</style>
-        </Helmet>
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <Loading />
-        </div>
-      </>
-    )
-  }
+  // if (loading) {
+  //   return (
+  //     <>
+  //       <Helmet>
+  //         <style>{`body { background-color: ${ColorScheme.WHITE}; }`}</style>
+  //       </Helmet>
+  //       <div
+  //         style={{
+  //           position: "absolute",
+  //           top: "50%",
+  //           left: "50%",
+  //           transform: "translate(-50%, -50%)",
+  //         }}
+  //       >
+  //         <Loading />
+  //       </div>
+  //     </>
+  //   )
+  // }
 
   return (
     <>
